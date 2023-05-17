@@ -8,11 +8,19 @@ const CakeForm = ({cake, listOfCakes, setListOfCakes}) => {
     const[rating, setRating] = useState("");
     const[error, setError] = useState("");
 
-    // i want to add the whole validation thing as well
+    const button = document.getElementById("button");
+    const input = document.getElementsByName("ingredients");
+    const list = document.getElementById("list");
+
+
     const handleValidation = () => {
         let errorMessage = "";
-        if(cakeName === "" || ingredients === [] || price === "" || rating === ""){
+        if(cakeName === "" || price === "" || rating === ""){
             errorMessage = "Please fill in all fields";
+        }
+
+        if(list === ""){
+            errorMessage = "Please add ingredients";
         }
 
         // i want to check for same name as well!
@@ -33,7 +41,7 @@ const CakeForm = ({cake, listOfCakes, setListOfCakes}) => {
 
         if(!handleValidation()){
 
-            const updatedCakes =  [...listOfCakes];
+            const updatedCakes =  [...listOfCakes]; // something wrong
 
             const newCakeItem = {
                 cakeName : cakeName,
@@ -46,6 +54,14 @@ const CakeForm = ({cake, listOfCakes, setListOfCakes}) => {
 
             setListOfCakes(updatedCakes);
         }
+    }
+    window.onload = function(){
+        button.addEventListener('click', (event) => {
+            const newIngredient = document.createElement("li");
+            if(input.vale != ""){
+                list.appendChild(newIngredient);
+            }
+        });
     }
 
 return (
@@ -62,13 +78,16 @@ return (
     onChange={(e) => setCakeName(e.target.value)}/>
 
     <p>Ingredients:</p>
+    <form>
     <input
     type="text"
     name="ingredients"
     placeholder="Add ingredients..."
     value={ingredients}
     onChange={(e) => setIngredients(e.target.value)}/>
-        <ul>
+    <button type="button" id="button">Add ingredient</button>
+    </form>
+        <ul id="list">
             
         </ul>
 
@@ -93,7 +112,6 @@ return (
     name="submit"/>
 
     </form>
-    <p>{error}</p>
     </>
 )
 };
