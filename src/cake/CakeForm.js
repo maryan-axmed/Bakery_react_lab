@@ -1,35 +1,43 @@
 import { useState } from "react";
+
 const CakeForm = ({cake, listOfCakes, setListOfCakes}) => {
 
-    const[name, setName] = useState("");
+    const[cakeName, setCakeName] = useState("");
     const[ingredients, setIngredients] = useState([]);
     const[price, setPrice] = useState("");
     const[rating, setRating] = useState("");
     const[error, setError] = useState("");
 
     // i want to add the whole validation thing as well
-    const handleValidation = (e) => {
+    const handleValidation = () => {
         let errorMessage = "";
-        if(name === "" || ingredients === [] || price === "" || rating === ""){
+        if(cakeName === "" || ingredients === [] || price === "" || rating === ""){
             errorMessage = "Please fill in all fields";
         }
 
-        if(name === cake.cakeName){
-            errorMessage = "This cake already exist!"
-        }
+        // i want to check for same name as well!
 
         if(price < 0 || rating < 0){
             errorMessage = "Please give a price/rating greater than 0;"
         }
+
+        if(errorMessage !== ""){
+            alert(errorMessage);
+          }
+
+    return errorMessage!== "";
     }
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        if(!handleValidation){
+
+        if(!handleValidation()){
+
             const updatedCakes =  [...listOfCakes];
+
             const newCakeItem = {
-                name : name,
-                ingredients : ingredients,
+                cakeName : cakeName,
+                ingredients : [ingredients],
                 price : price,
                 rating : rating
             }
@@ -50,8 +58,8 @@ return (
     type="text"
     name="cake_name"
     placeholder="Cake name..."
-    value={name}
-    onChange={(e) => setName(e.target.value)}/>
+    value={cakeName}
+    onChange={(e) => setCakeName(e.target.value)}/>
 
     <p>Ingredients:</p>
     <input
@@ -91,6 +99,3 @@ return (
 };
 
 export default CakeForm;
-
-//TO-DO:
-// add new cake to listOfCakes 
